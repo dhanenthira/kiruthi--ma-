@@ -19,15 +19,29 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+}
 
 body {
   font-family: "Poppins", system-ui, sans-serif;
   color: var(--text);
   background: radial-gradient(ellipse at top, #0c2d5e 0%, var(--twilight) 45%, var(--midnight) 85%) fixed;
   min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: 100vw;
   overflow-x: hidden;
   line-height: 1.6;
+  -webkit-overflow-scrolling: touch;
+}
+
+main {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 .script { font-family: "Dancing Script", cursive; font-weight: 700; }
@@ -543,80 +557,177 @@ h2.script.big { font-size: clamp(2.2rem, 8vw, 4rem); }
 .final-msg { color: var(--sky-soft); text-shadow: 0 0 16px rgba(56, 189, 248, 0.85); }
 
 /* ---------- Responsive: Mobile & Tablet Optimization ---------- */
-@media (max-width: 600px) {
-  /* Prevent side dots from colliding with mobile content */
+@media (max-width: 768px) {
+  /* Hide side dots on mobile and tablets to eliminate right-edge clutter and thumb collision */
   #dots {
-    right: 4px;
-    gap: 4px;
+    display: none !important;
   }
-  #dots a {
-    width: 20px;
-    height: 18px;
-  }
-  #dots a::after {
-    width: 6px;
-    height: 6px;
+}
+
+@media (max-width: 600px) {
+  /* Safe screen padding with notch / home bar support */
+  .screen {
+    padding: calc(3.2rem + env(safe-area-inset-top, 0px)) 1rem calc(2.5rem + env(safe-area-inset-bottom, 0px));
+    gap: 1.1rem;
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 
+  /* Compact top floating music controller */
   .floating-music-btn {
-    top: 10px;
-    right: 10px;
-    padding: 6px 10px;
+    top: 12px;
+    right: 12px;
+    padding: 6px 12px;
     font-size: 0.85rem;
     gap: 6px;
+    background: rgba(3, 12, 29, 0.85);
   }
 
-  .screen {
-    padding: 3.5rem 0.9rem 3rem;
-    gap: 1rem;
+  /* Welcome Screen Mobile Typography & Heart */
+  h1.script {
+    font-size: clamp(2.1rem, 7.8vw, 3.2rem);
+    line-height: 1.2;
+    padding: 0 0.5rem;
+  }
+  .big-heart {
+    width: 76px;
+    height: 76px;
+    margin-bottom: 1.4rem;
+  }
+  .big-heart::before, .big-heart::after {
+    width: 76px;
+    height: 76px;
+  }
+  .big-heart::before { top: -38px; }
+  .big-heart::after { left: 38px; }
+
+  /* Cake Section Mobile Proportions */
+  .cake {
+    transform: scale(0.82);
+    transform-origin: center center;
+    margin: 0.5rem auto 0;
+  }
+  #wishMsg {
+    font-size: clamp(1.35rem, 5vw, 1.8rem);
+    padding: 0 0.5rem;
   }
 
   /* Two clean, balanced columns on phones */
   .gallery {
     grid-template-columns: repeat(2, 1fr);
-    gap: 14px 10px;
+    gap: 12px 8px;
     width: 100%;
-    padding: 0.2rem;
+    max-width: 100%;
+    padding: 0.2rem 0;
   }
-  /* Less rotation on mobile so cards never clip or overflow screen */
+  /* Remove tilt on mobile touchscreens for uniform, seamless layout */
   .polaroid {
-    transform: rotate(calc(var(--tilt) * 0.4));
-    padding: 8px 8px 4px;
+    transform: none;
+    padding: 7px 7px 5px;
+    box-shadow: 0 0 0 1.5px rgba(56, 189, 248, 0.3), 0 6px 16px rgba(0, 0, 0, 0.5);
   }
   .polaroid:hover, .polaroid:focus-visible {
-    transform: rotate(0deg) scale(1.03) translateY(-3px);
+    transform: translateY(-2px);
+  }
+  .polaroid:active {
+    transform: scale(0.97);
   }
   .polaroid figcaption {
-    font-size: 1.05rem;
-    padding: 0.4rem 0 0.3rem;
+    font-size: clamp(0.95rem, 3.5vw, 1.15rem);
+    padding: 0.4rem 0 0.25rem;
+    line-height: 1.25;
   }
   .tap-hint {
-    display: none; /* keep clean on mobile touchscreens */
+    display: none;
+  }
+
+  /* Love Letter Envelope Mobile */
+  .envelope {
+    width: min(270px, 82vw);
+    height: 165px;
+  }
+  .paper {
+    width: min(94vw, 540px);
+    padding: 0 1rem;
+  }
+  .paper.show {
+    padding: 1.3rem 1.1rem;
+  }
+  #letterText {
+    font-size: clamp(1.15rem, 4.4vw, 1.45rem);
+    line-height: 1.5;
+  }
+
+  /* Reasons Heart Card Mobile */
+  .heart-card {
+    width: min(90vw, 340px);
+  }
+  .reason {
+    left: 14%;
+    right: 14%;
+    top: 17%;
+    height: 52%;
+    font-size: clamp(1rem, 4.2vw, 1.35rem);
+    line-height: 1.3;
+  }
+
+  /* Romantic Music Player Mobile */
+  .player {
+    width: min(92vw, 320px);
+    padding: 1.4rem 1rem;
+  }
+  .disc {
+    width: 105px;
+    height: 105px;
+    font-size: 1.9rem;
+  }
+
+  /* Final Surprise Mobile */
+  .infinity {
+    width: min(90vw, 360px);
+  }
+  .infinity span {
+    font-size: clamp(0.75rem, 3vw, 1rem);
+  }
+  .final-msg {
+    font-size: clamp(1.3rem, 5.2vw, 1.75rem);
+    padding: 0 0.5rem;
   }
 
   /* Modal responsive adjustments on phones */
+  .modal {
+    padding: 0.5rem;
+  }
   .modal-card {
-    width: 95vw;
+    width: min(96vw, 440px);
+    max-height: 90vh;
     border-radius: 16px;
   }
   .modal-image-wrapper {
     max-height: 52vh;
-    min-height: 220px;
+    min-height: 200px;
   }
   #modalImg {
     max-height: 52vh;
   }
-  .modal-nav {
+  .modal-close {
+    top: 8px;
+    right: 8px;
     width: 38px;
     height: 38px;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
+  }
+  .modal-nav {
+    width: 40px;
+    height: 40px;
+    font-size: 1.6rem;
   }
   .modal-nav.prev { left: 6px; }
   .modal-nav.next { right: 6px; }
   .modal-footer {
     padding: 0.8rem 0.9rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     gap: 0.6rem;
   }
   .modal-info {
@@ -629,19 +740,26 @@ h2.script.big { font-size: clamp(2.2rem, 8vw, 4rem); }
   }
   .modal-heart-btn {
     width: 100%;
+    padding: 0.65rem 1rem;
+    font-size: 0.95rem;
     text-align: center;
   }
-
-  .cake { transform: scale(0.85); margin: 0 auto; }
 }
 
-@media (max-width: 380px) {
-  .cake { transform: scale(0.75); }
-  .heart-card { width: 92vw; }
-  .reason { font-size: 1.05rem; }
-  .gallery { gap: 10px 8px; }
-  .polaroid { padding: 6px 6px 4px; }
-  .polaroid figcaption { font-size: 0.95rem; }
+@media (max-width: 370px) {
+  .screen {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+  }
+  h1.script { font-size: 2rem; }
+  h2.script { font-size: 1.7rem; }
+  .cake { transform: scale(0.74); }
+  .heart-card { width: 94vw; }
+  .reason { font-size: 0.98rem; }
+  .gallery { gap: 8px 6px; }
+  .polaroid { padding: 5px 5px 3px; }
+  .polaroid figcaption { font-size: 0.88rem; }
+  .btn { padding: 0.75rem 1.4rem; font-size: 0.92rem; }
 }
 
 @media (min-width: 900px) {
